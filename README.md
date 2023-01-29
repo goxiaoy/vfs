@@ -9,7 +9,7 @@ go get github/goxiaoy/vfs
 
 ```go
 
-v := vfs.NewVfs() //vfs implements afero.Fs
+v := vfs.New() //vfs implements afero.Fs
 
 v.Mount("/", afero.NewMemMapFs()) //second prameter could be any afero.Fs 
 v.Mount("/abc", afero.NewMemMapFs())

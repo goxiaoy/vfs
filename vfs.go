@@ -24,7 +24,7 @@ type Vfs struct {
 	mtab mountTable
 }
 
-func NewVfs() *Vfs {
+func New() *Vfs {
 	return &Vfs{
 		mtab: mountTable{
 			mounts: trie.NewPathTrieWithConfig[*MountPoint](&trie.PathTrieConfig{Segmenter: trie.PathSegmenter2}),

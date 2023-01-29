@@ -15,7 +15,7 @@ func TestMount(t *testing.T) {
 
 	var err error
 
-	vfs := NewVfs()
+	vfs := New()
 
 	//invalid args
 	assert.Error(t, vfs.Mount("", afero.NewMemMapFs()))
@@ -98,7 +98,7 @@ func TestMount(t *testing.T) {
 }
 
 func TestUnmount(t *testing.T) {
-	vfs := NewVfs()
+	vfs := New()
 	assert.NoError(t, vfs.Mount("/", afero.NewMemMapFs()))
 	assert.NoError(t, vfs.Mount("/a", afero.NewMemMapFs()))
 
