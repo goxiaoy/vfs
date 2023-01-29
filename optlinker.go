@@ -47,14 +47,14 @@ func (o *OptLinker) PreSignedURL(ctx context.Context, name string, args ...LinkO
 	return
 }
 
-func (o *OptLinker) PublicUrl(name string) (res *Link, err error) {
+func (o *OptLinker) PublicUrl(ctx context.Context, name string) (res *Link, err error) {
 	url := o.publicAccessUrl
 	url.Path = path.Join(url.Path, name)
 	res.URL = url.String()
 	return
 }
 
-func (o *OptLinker) InternalUrl(name string, args ...LinkOptions) (res *Link, err error) {
+func (o *OptLinker) InternalUrl(ctx context.Context, name string, args ...LinkOptions) (res *Link, err error) {
 	url := o.internalAccessUrl
 	url.Path = path.Join(url.Path, name)
 	res.URL = url.String()

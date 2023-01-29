@@ -1,6 +1,7 @@
 package vfs
 
 import (
+	"context"
 	"io/fs"
 	"os"
 	"path"
@@ -194,4 +195,46 @@ func (v *Vfs) Chtimes(name string, atime time.Time, mtime time.Time) error {
 		return syscall.ENOENT
 	}
 	return fsys.Chtimes(unrooted, atime, mtime)
+}
+
+func (v *Vfs) PreSignedURL(ctx context.Context, name string, args ...LinkOptions) (*Link, error) {
+	v.mtab.mu.RLock()
+	_, fsys, unrooted := v.findMountPoint(name)
+	v.mtab.mu.RUnlock()
+	if fsys == nil {
+		return nil, syscall.ENOENT
+	}
+	if fsys, ok := fsys.(Linker); !ok {
+		return nil, ErrNotSupported
+	} else {
+		return fsys.PreSignedURL(ctx, unrooted, args...)
+	}
+}
+
+func (v *Vfs) PublicUrl(ctx context.Context, name string) (*Link, error) {
+	v.mtab.mu.RLock()
+	_, fsys, unrooted := v.findMountPoint(name)
+	v.mtab.mu.RUnlock()
+	if fsys == nil {
+		return nil, syscall.ENOENT
+	}
+	if fsys, ok := fsys.(Linker); !ok {
+		return nil, ErrNotSupported
+	} else {
+		return fsys.PublicUrl(ctx, unrooted)
+	}
+}
+
+func (v *Vfs) InternalUrl(ctx context.Context, name string, args ...LinkOptions) (*Link, error) {
+	v.mtab.mu.RLock()
+	_, fsys, unrooted := v.findMountPoint(name)
+	v.mtab.mu.RUnlock()
+	if fsys == nil {
+		return nil, syscall.ENOENT
+	}
+	if fsys, ok := fsys.(Linker); !ok {
+		return nil, ErrNotSupported
+	} else {
+		return fsys.InternalUrl(ctx, unrooted, args...)
+	}
 }

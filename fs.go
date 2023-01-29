@@ -15,8 +15,8 @@ type FS = afero.Fs
 
 type Linker interface {
 	PreSignedURL(ctx context.Context, name string, args ...LinkOptions) (*Link, error)
-	PublicUrl(name string) (*Link, error)
-	InternalUrl(name string, args ...LinkOptions) (*Link, error)
+	PublicUrl(ctx context.Context, name string) (*Link, error)
+	InternalUrl(ctx context.Context, name string, args ...LinkOptions) (*Link, error)
 }
 
 type Mover interface {

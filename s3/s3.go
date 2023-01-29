@@ -55,14 +55,14 @@ func (b *Blob) PreSignedURL(ctx context.Context, name string, args ...vfs.LinkOp
 	return
 }
 
-func (b *Blob) PublicUrl(name string) (res *vfs.Link, err error) {
+func (b *Blob) PublicUrl(ctx context.Context, name string) (res *vfs.Link, err error) {
 	url := b.publicAccessUrl
 	url.Path = path.Join(url.Path, name)
 	res.URL = url.String()
 	return
 }
 
-func (b *Blob) InternalUrl(name string, args ...vfs.LinkOptions) (res *vfs.Link, err error) {
+func (b *Blob) InternalUrl(ctx context.Context, name string, args ...vfs.LinkOptions) (res *vfs.Link, err error) {
 	url := b.internalAccessUrl
 	url.Path = path.Join(url.Path, name)
 	res.URL = url.String()

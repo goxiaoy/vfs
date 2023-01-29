@@ -16,7 +16,8 @@ const (
 )
 
 var (
-	ErrRecursive = errors.New("recursive mount may cause dead lock")
+	ErrRecursive    = errors.New("recursive mount may cause dead lock")
+	ErrNotSupported = errors.New("not supported")
 )
 
 type Vfs struct {
@@ -166,4 +167,4 @@ type mountTable struct {
 	mounts *trie.PathTrie[*MountPoint]
 }
 
-var _ FS = (*Vfs)(nil)
+var _ Blob = (*Vfs)(nil)
