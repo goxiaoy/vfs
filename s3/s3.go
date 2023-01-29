@@ -6,7 +6,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
 	as3 "github.com/fclairamb/afero-s3"
-	"github/goxiaoy/vfs"
+	"github.com/goxiaoy/vfs"
 	"net/url"
 	"path"
 	"strings"

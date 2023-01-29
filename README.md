@@ -4,7 +4,7 @@ Golang virtual file system based on  [afero](https://github.com/spf13/afero)
 #### usage
 
 ```shell
-go get github/goxiaoy/vfs
+go get github.com/goxiaoy/vfs
 ```
 
 ```go
