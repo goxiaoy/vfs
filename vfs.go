@@ -5,6 +5,7 @@ import (
 	"github.com/goxiaoy/vfs/pkg/trie"
 	"io/fs"
 	"path"
+	"path/filepath"
 	"strings"
 	"sync"
 	"sync/atomic"
@@ -126,6 +127,8 @@ func (v *Vfs) Mounts() []*MountPoint {
 // findMountPoints find matched mount point according to name
 func (v *Vfs) findMountPoint(name string) (mp *MountPoint, fsys FS, unrooted string) {
 	name = path.Clean(name)
+	//only support slash
+	name = filepath.ToSlash(name)
 
 	mp, unrooted = v.mtab.mounts.Get(name)
 	if mp == nil {

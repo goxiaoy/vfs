@@ -4,7 +4,6 @@ import (
 	"context"
 	"io/fs"
 	"os"
-	"path"
 	"sync/atomic"
 	"syscall"
 	"time"
@@ -38,8 +37,14 @@ error:
 }
 
 func (v *Vfs) MkdirAll(p string, perm os.FileMode) (err error) {
-	//TODO optimize for same FS
-	p = path.Clean(p)
+	v.mtab.mu.RLock()
+	_, fsys, unrooted := v.findMountPoint(p)
+	v.mtab.mu.RUnlock()
+
+	if fsys == nil {
+		err = syscall.ENOENT
+		return &fs.PathError{Op: "mkdirAll", Path: p, Err: err}
+	}
 
 	// Fast path: if we can tell whether path is a directory or file, stop with success or error.
 	dir, err := v.Stat(p)
@@ -66,8 +71,9 @@ func (v *Vfs) MkdirAll(p string, perm os.FileMode) (err error) {
 			return err
 		}
 	}
-	// Parent now exists; invoke Mkdir and use its result.
-	return v.Mkdir(p, perm)
+	//call underlying
+	return fsys.MkdirAll(unrooted, perm)
+
 }
 
 func (v *Vfs) Open(name string) (f File, err error) {

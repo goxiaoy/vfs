@@ -95,6 +95,17 @@ func TestMount(t *testing.T) {
 	err = vfs.MkdirAll("/e/f/g", 0777)
 	assert.NoError(t, err)
 
+	//multiple mount osFs
+	err = vfs.Mount("/h", osFs)
+	assert.NoError(t, err)
+
+	basePathFs := afero.NewBasePathFs(vfs, "/h")
+	err = basePathFs.MkdirAll("/a/b/c", 0777)
+	assert.NoError(t, err)
+	exist, err = afero.Exists(osFs, "/a/b/c")
+	assert.NoError(t, err)
+	assert.True(t, exist)
+
 }
 
 func TestUnmount(t *testing.T) {
