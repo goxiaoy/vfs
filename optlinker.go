@@ -43,6 +43,7 @@ func (o *OptLinker) PreSignedURL(ctx context.Context, name string, args ...LinkO
 	if len(token) > 0 {
 		url.Query().Add("token", token)
 	}
+	res = &Link{}
 	res.URL = url.String()
 	return
 }
@@ -50,6 +51,7 @@ func (o *OptLinker) PreSignedURL(ctx context.Context, name string, args ...LinkO
 func (o *OptLinker) PublicUrl(ctx context.Context, name string) (res *Link, err error) {
 	url := o.publicAccessUrl
 	url.Path = path.Join(url.Path, name)
+	res = &Link{}
 	res.URL = url.String()
 	return
 }

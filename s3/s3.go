@@ -51,6 +51,7 @@ func (b *Blob) PreSignedURL(ctx context.Context, name string, args ...vfs.LinkOp
 	if len(args) > 0 && args[0].Expire != nil {
 		t = *args[0].Expire
 	}
+	res = &vfs.Link{}
 	res.URL, err = r.Presign(t)
 	return
 }
@@ -58,6 +59,7 @@ func (b *Blob) PreSignedURL(ctx context.Context, name string, args ...vfs.LinkOp
 func (b *Blob) PublicUrl(ctx context.Context, name string) (res *vfs.Link, err error) {
 	url := b.publicAccessUrl
 	url.Path = path.Join(url.Path, name)
+	res = &vfs.Link{}
 	res.URL = url.String()
 	return
 }
@@ -65,6 +67,7 @@ func (b *Blob) PublicUrl(ctx context.Context, name string) (res *vfs.Link, err e
 func (b *Blob) InternalUrl(ctx context.Context, name string, args ...vfs.LinkOptions) (res *vfs.Link, err error) {
 	url := b.internalAccessUrl
 	url.Path = path.Join(url.Path, name)
+	res = &vfs.Link{}
 	res.URL = url.String()
 	return
 }
